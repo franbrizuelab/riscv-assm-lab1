@@ -19,15 +19,18 @@ branch:
     #First, we try to separate the two cases (even and odd)
     rem s1, a0, s0
     
-    bne s1, zero, odd
-    la a0, evenmsg
-    li a7, 4
-    ecall
+    bne s1, zero, odd   #Go to the function for odd numbers
+    #la a0, evenmsg
+    srai a0, a0, 1      #Right shift by 1, which is like dividing by 2
+    #li a7, 4
+    #ecall
     jr ra
 
-    odd:
-    la a0, oddmsg
-    li a7, 4
-    ecall
-
+odd:
+    addi t0, zero, 3
+    mul a0, a0, t0      #The lower 32 bits uf the multiplication by 3
+    addi a0, a0, 1      #Adding 1
+    #la a0, oddmsg
+    #li a7, 4
+    #ecall
   jr ra
